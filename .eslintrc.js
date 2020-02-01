@@ -4,6 +4,7 @@ module.exports = {
     "react"
   ],
   "globals": {
-    "fetch": false
+    "fetch": false,
+    "document": false
   }
 };
