@@ -28,18 +28,21 @@ const App = () => {
       });
   }, []);
 
-  const search = (searchValue) => {
+  const search = async (searchValue) => {
     dispatch(SearchMoviesRequest);
 
-    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`)
-      .then((response) => response.json())
-      .then((jsonResponse) => {
-        if (jsonResponse.Response === 'True') {
-          dispatch(SearchMoviesSuccess(jsonResponse));
-        } else {
-          dispatch(SearchMoviesFailure(jsonResponse));
-        }
-      });
+    try {
+      const response = await fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`);
+      const jsonResponse = await response.json();
+
+      if (jsonResponse.Response === 'True') {
+        dispatch(SearchMoviesSuccess(jsonResponse));
+      } else {
+        dispatch(SearchMoviesFailure(jsonResponse));
+      }
+    } catch (e) {
+      throw new Error(`couldn't not get response ${e.message}`);
+    }
   };
 
   const { movies, errorMessage, loading } = state;
