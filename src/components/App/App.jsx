@@ -34,8 +34,8 @@ const App = () => {
   } else if (errorMessage) {
     element = <div className="errorMessage">{errorMessage}</div>;
   } else {
-    element = movies.map((movie, index) => (
-      <Movie key={`${index}-${movie.Title}`} movie={movie} />
+    element = movies.map((movie) => (
+      <Movie key={`${movie.Year}-${movie.Title}`} movie={movie} />
     ));
   }
 
