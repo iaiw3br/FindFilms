@@ -23,8 +23,8 @@ const App = () => {
     swapiService.getBeginnerData(dispatch);
   }, []);
 
-  const search = async (searchValue) => {
-    await swapiService.searchFilms(searchValue, dispatch);
+  const search = (searchValue) => {
+    swapiService.searchFilms(searchValue, dispatch);
   };
 
   const { movies, errorMessage, loading } = state;
