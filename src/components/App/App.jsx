@@ -28,6 +28,18 @@ const App = () => {
   };
 
   const { movies, errorMessage, loading } = state;
+  let element;
+
+  if (loading && !errorMessage) {
+    element = <span>loading... </span>;
+  } else if (errorMessage) {
+    element = <div className="errorMessage">{errorMessage}</div>;
+  } else {
+    element = movies.map((movie, index) => (
+      <Movie key={`${index}-${movie.Title}`} movie={movie} />
+    ));
+  }
+
 
   return (
     <div className="App">
@@ -35,15 +47,9 @@ const App = () => {
       <Search search={search} />
       <p className="App-intro">Sharing a few of our favourite movies</p>
       <div className="movies">
-        { loading && !errorMessage ? (
-          <span>loading... </span>
-        ) : errorMessage ? (
-          <div className="errorMessage">{errorMessage}</div>
-        ) : (
-          movies.map((movie, index) => (
-            <Movie key={`${index}-${movie.Title}`} movie={movie} />
-          ))
-        )}
+        {' '}
+        {element}
+        {' '}
       </div>
     </div>
   );
