@@ -8,6 +8,7 @@ import './App.css';
 
 import { SearchMoviesSuccess, SearchMoviesRequest, SearchMoviesFailure } from '../../actions';
 import MOVIE_API_URL from '../../services/config';
+import SwapiService from '../../services/SwapiService';
 
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
 
 
 const App = () => {
+  const swapiService = new SwapiService();
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -32,8 +34,7 @@ const App = () => {
     dispatch(SearchMoviesRequest);
 
     try {
-      const response = await fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`);
-      const jsonResponse = await response.json();
+      const jsonResponse = await swapiService.getResource(searchValue);
 
       if (jsonResponse.Response === 'True') {
         dispatch(SearchMoviesSuccess(jsonResponse));
