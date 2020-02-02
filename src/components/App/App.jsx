@@ -2,8 +2,11 @@ import React, { useReducer, useEffect } from 'react';
 import Header from '../Header';
 import Movie from '../Movie';
 import Search from '../Search';
+import reducer from '../../reducers';
 
 import './App.css';
+
+import { SearchMoviesSuccess, SearchMoviesRequest, SearchMoviesFailure } from '../../actions';
 
 const MOVIE_API_URL = 'https://www.omdbapi.com/?s=man&apikey=4a3b711b';
 
@@ -14,32 +17,6 @@ const initialState = {
 };
 
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'SEARCH_MOVIES_REQUEST':
-      return {
-        ...state,
-        loading: true,
-        errorMessage: null,
-      };
-    case 'SEARCH_MOVIES_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-        movies: action.payload,
-      };
-    case 'SEARCH_MOVIES_FAILURE':
-      return {
-        ...state,
-        loading: false,
-        errorMessage: action.error,
-      };
-    default:
-      return state;
-  }
-};
-
-
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -47,31 +24,20 @@ const App = () => {
     fetch(MOVIE_API_URL)
       .then((response) => response.json())
       .then((jsonResponse) => {
-        dispatch({
-          type: 'SEARCH_MOVIES_SUCCESS',
-          payload: jsonResponse.Search,
-        });
+        dispatch(SearchMoviesSuccess(jsonResponse));
       });
   }, []);
 
   const search = (searchValue) => {
-    dispatch({
-      type: 'SEARCH_MOVIES_REQUEST',
-    });
+    dispatch(SearchMoviesRequest);
 
     fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`)
       .then((response) => response.json())
       .then((jsonResponse) => {
         if (jsonResponse.Response === 'True') {
-          dispatch({
-            type: 'SEARCH_MOVIES_SUCCESS',
-            payload: jsonResponse.Search,
-          });
+          dispatch(SearchMoviesSuccess(jsonResponse));
         } else {
-          dispatch({
-            type: 'SEARCH_MOVIES_FAILURE',
-            error: jsonResponse.Error,
-          });
+          dispatch(SearchMoviesFailure(jsonResponse));
         }
       });
   };
