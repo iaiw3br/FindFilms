@@ -7,7 +7,6 @@ import reducer from '../../reducers';
 import './App.css';
 
 import { SearchMoviesSuccess, SearchMoviesRequest, SearchMoviesFailure } from '../../actions';
-import MOVIE_API_URL from '../../services/config';
 import SwapiService from '../../services/SwapiService';
 
 
@@ -23,11 +22,7 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    fetch(MOVIE_API_URL)
-      .then((response) => response.json())
-      .then((jsonResponse) => {
-        dispatch(SearchMoviesSuccess(jsonResponse));
-      });
+    swapiService.getBeginnerData(dispatch);
   }, []);
 
   const search = async (searchValue) => {
