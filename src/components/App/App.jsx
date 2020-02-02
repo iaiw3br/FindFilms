@@ -7,8 +7,8 @@ import reducer from '../../reducers';
 import './App.css';
 
 import { SearchMoviesSuccess, SearchMoviesRequest, SearchMoviesFailure } from '../../actions';
+import MOVIE_API_URL from '../../services/config';
 
-const MOVIE_API_URL = 'https://www.omdbapi.com/?s=man&apikey=4a3b711b';
 
 const initialState = {
   loading: true,
