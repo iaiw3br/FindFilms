@@ -6,9 +6,7 @@ import reducer from '../../reducers';
 
 import './App.css';
 
-import { SearchMoviesSuccess, SearchMoviesRequest, SearchMoviesFailure } from '../../actions';
 import SwapiService from '../../services/SwapiService';
-
 
 const initialState = {
   loading: true,
@@ -26,19 +24,7 @@ const App = () => {
   }, []);
 
   const search = async (searchValue) => {
-    dispatch(SearchMoviesRequest);
-
-    try {
-      const jsonResponse = await swapiService.getResource(searchValue);
-
-      if (jsonResponse.Response === 'True') {
-        dispatch(SearchMoviesSuccess(jsonResponse));
-      } else {
-        dispatch(SearchMoviesFailure(jsonResponse));
-      }
-    } catch (e) {
-      throw new Error(`couldn't not get response ${e.message}`);
-    }
+    await swapiService.searchFilms(searchValue, dispatch);
   };
 
   const { movies, errorMessage, loading } = state;

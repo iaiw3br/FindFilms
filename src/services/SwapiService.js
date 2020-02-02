@@ -1,5 +1,5 @@
 import MOVIE_API_URL from "./config";
-import {SearchMoviesSuccess} from "../actions";
+import {SearchMoviesSuccess, SearchMoviesFailure, SearchMoviesRequest} from "../actions";
 
 export default class SwapiService {
 
@@ -23,6 +23,21 @@ export default class SwapiService {
             dispatch(SearchMoviesSuccess(jsonResponse));
         } catch (e) {
             throw new Error(`Could not fetch ${e.message}`);
+        }
+    };
+
+    searchFilms = async (searchValue, dispatch) => {
+        dispatch(SearchMoviesRequest);
+        try {
+          const jsonResponse = await this.getResource(searchValue);
+
+          if (jsonResponse.Response === 'True') {
+            dispatch(SearchMoviesSuccess(jsonResponse));
+          } else {
+            dispatch(SearchMoviesFailure(jsonResponse));
+          }
+        } catch (e) {
+          throw new Error(`couldn't not get response ${e.message}`);
         }
     }
 }
