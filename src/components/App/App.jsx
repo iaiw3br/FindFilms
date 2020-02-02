@@ -14,9 +14,8 @@ const initialState = {
   errorMessage: null,
 };
 
-
+const swapiService = new SwapiService();
 const App = () => {
-  const swapiService = new SwapiService();
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
