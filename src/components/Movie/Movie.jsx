@@ -31,11 +31,11 @@ const Movie = ({
 };
 
 Movie.propTypes = {
-  movie: PropTypes.node.isRequired,
-  Poster: PropTypes.string.isRequired,
-  Title: PropTypes.string.isRequired,
-  Year: PropTypes.string.isRequired,
-
+  movie: PropTypes.shape({
+    Poster: PropTypes.string.isRequired,
+    Title: PropTypes.string.isRequired,
+    Year: PropTypes.string.isRequired,
+  }),
 };
 
 export default Movie;

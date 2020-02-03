@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropsTypes from 'prop-types';
 
 
 const Search = ({ search }) => {
@@ -28,6 +29,10 @@ const Search = ({ search }) => {
       <input onClick={callSearchFunction} type="submit" value="SEARCH" />
     </form>
   );
+};
+
+Search.propTypes = {
+  search: PropsTypes.func.isRequired,
 };
 
 export default Search;
